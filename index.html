@@ -13,8 +13,7 @@
     <style>
         /* Define variables for the sparkle effect */
         :root {
-            /* Increased glow strength for better visibility */
-            --colorUsernameGlow: 0 0 25px #ffffff, 0 0 5px #f8f9fa;
+            /* ঔজ্জ্বল্য (Glow) সংক্রান্ত ভেরিয়েবলগুলো সম্পূর্ণরূপে সরিয়ে দেওয়া হলো */
         }
         
         /* 🌟 এখানে Varela Round ফন্ট ব্যবহার করা হলো 🌟 */
@@ -50,22 +49,13 @@
             display: none; /* Chrome, Safari, Opera */
         }
         
-        /* Custom class for username glow and sparkle effect (Re-implemented) */
+        /* Custom class for username - এখন শুধুমাত্র সাদা রঙ এবং এক লাইনে রাখার জন্য ব্যবহৃত */
         .username-glow {
-            text-shadow: var(--colorUsernameGlow);
+            /* text-shadow এবং background-clip প্রপার্টিগুলো সরিয়ে দেওয়া হলো */
             /* নিশ্চিত করুন যে নামটি এক লাইনে থাকে (no line break) */
-            white-space: nowrap; 
-            
-            /* Add Sparkle GIF as background, clip to text, and make text color semi-transparent */
-            background-image: var(--usernameEffects);
-            background-size: 150px 150px; /* Make the GIF background larger for better effect */
-            background-repeat: repeat;
-            
-            /* Set a very faint white color instead of fully transparent to ensure shadow is not clipped */
-            color: rgba(255, 255, 255, 0.1); 
-            
-            -webkit-background-clip: text; /* For Safari/Chrome */
-            background-clip: text;
+            white-space: nowrap; /* <-- এই প্রপার্টিটি লাইন ব্রেক হওয়া থেকে আটকায় */
+            /* ফন্টের রঙ সাদা করে দেওয়া হলো */
+            color: white; 
         }
         /* Custom class for internal section backgrounds (using Tailwind bg-white/10 as requested by user's structure) */
     </style>
@@ -94,34 +84,39 @@
                 <img src="25-11-12_20-49-57-539.jpg" alt="Md. Kamrul Hasan (Partho)" class="object-cover w-full h-full" onerror="this.onerror=null; this.src='https://placehold.co/128x128/007bff/ffffff?text=KH+P'">
             </div>
 
-            <!-- Name with sparkle/glow effect -->
-            <h1 class="text-4xl font-extrabold text-center mb-1 tracking-wide ">Md. Kamrul Hasan</h1>
+            <!-- Name: এখন গ্লো নেই, শুধুমাত্র সাদা রঙে স্পষ্ট -->
+            <h1 class="text-4xl font-extrabold text-center mb-1 tracking-wide username-glow">Md. Kamrul Hasan</h1>
             
         </header>
 
 
-        <!-- Personal Details Table Mimic -->            
+        <!-- Personal Details Table Mimic (Removed justify-between and added gap-2 for minimal space) -->            
         <div class="space-y-4 mb-10 p-4 bg-white/10 rounded-lg border border-blue-500/30 shadow-inner">              
              <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                          
-             <div class="flex justify-between  border-b border-white/20 pb-2">                
-                <label class="font-semibold text-white/70">Full Name:</label>                
-                <span class="text-white text-right">Md. Kamrul Hasan (Partho)</span>            
+             <!-- Full Name -->
+             <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
+                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Full Name:</label>                
+                <span class="text-white whitespace-nowrap">Md. Kamrul Hasan (Partho)</span>            
             </div>            
-            <div class="flex justify-between  border-b border-white/20 pb-2">                
-                <label class="font-semibold text-white/70">Date of Birth:</label>                
-                <span class="text-white text-right">23 February 2006</span>            
+             <!-- Date of Birth -->
+            <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
+                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Date of Birth:</label>                
+                <span class="text-white whitespace-nowrap">23 February 2006</span>            
             </div>            
-            <div class="flex justify-between  border-b border-white/20 pb-2">                
-                <label class="font-semibold text-white/70">Address:</label>                
-                <span class="text-white text-right">Singra, Natore</span>            
+             <!-- Address -->
+            <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
+                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Address:</label>                
+                <span class="text-white whitespace-nowrap">Singra, Natore</span>            
             </div>            
-            <div class="flex justify-between items border-b border-white/20 pb-2">                
-                <label class="font-semibold text-white/70">Current Location:</label>                
-                <span class="text-white text-right">Rajshahi</span>            
+             <!-- Current Location -->
+            <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
+                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Current Location:</label>                
+                <span class="text-white whitespace-nowrap">Rajshahi</span>            
             </div>            
-            <div class="flex justify-between  ">                
-                <label class="font-semibold text-white/70">Dream:</label>                
-                <span class="text-white text-right">To be a good person and do something great for the country</span>            
+            <!-- Dream (The value text is allowed to wrap if necessary) -->
+            <div class="flex items-center gap-2">                
+                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Dream:</label>                
+                <span class="text-white">To be a good person and do something great for the country</span>            
             </div>        
         </div>
 
@@ -164,6 +159,7 @@
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
                 <h3 class="2xl font-bold mb-3 text-amber-300">Contact</h3>                
                 <p class="text-white/90">                    
+                    <!-- Contact details should wrap if they are too long, but the label "Phone:" should not wrap. -->
                     <label class="font-semibold text-white/70 block">Phone:</label> 01751348227<br>                    
                     <label class="font-semibold text-white/70 block mt-2">WhatsApp:</label> 01751348227<br>                    
                     <label class="font-semibold text-white/70 block mt-2">E-mail:</label> khpartho623@gmail.com                
