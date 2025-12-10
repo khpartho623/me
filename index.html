@@ -75,29 +75,11 @@
             50% { opacity: 0.5; }
         }
 
-        /* Floating Music Control Button */
+        /* Floating Music Control Button (Hidden/Removed) */
+        /* Note: The CSS for the music control button is kept in case it's needed later, 
+           but the HTML button and its logic in JS are removed. */
         #music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        #music-control:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.1);
+            display: none; /* Ensure it is hidden if accidentally kept */
         }
     </style>
 </head>
@@ -105,20 +87,17 @@
 
     <!-- 1. AUDIO/ENTRY OVERLAY (Click to Enter) -->
     <div id="audio-overlay">
-        <div class="tap-text">Tap to Enter </div>
+        <div class="tap-text">Tap to Enter</div>
     </div>
     
     <!-- 2. Background Music (Updated Link) -->
-    <!-- New Link: Peaceful Piano Music - Adjusted for a melancholic/misty vibe, fitting the request. -->
+    <!-- Music will start automatically after the user clicks the overlay. -->
     <audio id="bg-music" loop preload="auto">
         <source src="https://cdn.pixabay.com/audio/2023/12/12/audio_cf2514cd8c.mp3" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
 
-    <!-- Floating Music Toggle Button -->
-    <button id="music-control" title="Toggle Music">
-        🔊
-    </button>
+    <!-- Floating Music Toggle Button: REMOVED -->
 
     <!-- Video Background -->    
     <video autoplay loop muted playsinline id="video-background">        
@@ -146,28 +125,32 @@
         <!-- Personal Details Table Mimic -->            
         <div class="space-y-4 mb-10 p-4 bg-white/10 rounded-lg border border-blue-500/30 shadow-inner">              
              <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                       
-             <!-- Full Name: Added 2 spaces (&nbsp;&nbsp;) at the end as requested -->
-             <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Full Name:</label>                
-                <span class="text-white whitespace-nowrap">Md. Kamrul Hasan (Partho)&nbsp;&nbsp;</span>            
+           
+             <div class="flex items-start border-b border-white/20 pb-2 gap-2">                
+                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Name:</label>                
+                <span class="text-white">Md. Kamrul Hasan (Partho)</span>            
             </div>            
              <!-- Date of Birth -->
-            <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
+             <!-- Text overflow fixed: removed whitespace-nowrap from span and used items-start -->
+            <div class="flex items-start border-b border-white/20 pb-2 gap-2">                
                 <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Date of Birth:</label>                
-                <span class="text-white whitespace-nowrap">23 February 2006</span>            
+                <span class="text-white">23 February 2006</span>            
             </div>            
              <!-- Address -->
-            <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
+             <!-- Text overflow fixed: removed whitespace-nowrap from span and used items-start -->
+            <div class="flex items-start border-b border-white/20 pb-2 gap-2">                
                 <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Address:</label>                
-                <span class="text-white whitespace-nowrap">Singra, Natore</span>            
+                <span class="text-white">Singra, Natore</span>            
             </div>            
              <!-- Current Location -->
-            <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
+             <!-- Text overflow fixed: removed whitespace-nowrap from span and used items-start -->
+            <div class="flex items-start border-b border-white/20 pb-2 gap-2">                
                 <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Current Location:</label>                
-                <span class="text-white whitespace-nowrap">Rajshahi</span>            
+                <span class="text-white">Rajshahi</span>            
             </div>            
             <!-- Dream -->
-            <div class="flex items-top gap-2">                
+            <!-- Text overflow fixed: removed whitespace-nowrap from span and used items-start -->
+            <div class="flex items-start gap-2">                
                 <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Dream:</label>                
                 <span class="text-white">To be a good person and do something great for the country</span>            
             </div>        
@@ -231,7 +214,7 @@
         const video = document.getElementById('video-background');            
         const music = document.getElementById('bg-music');
         const overlay = document.getElementById('audio-overlay');
-        const musicBtn = document.getElementById('music-control');
+        // musicBtn is removed as per user request.
         let isMusicPlaying = false;
 
         // Function to start everything
@@ -244,7 +227,7 @@
 
             // 2. Play Music
             if (music) {
-                // VOLUME CHANGED HERE: 1.0 means 100% volume
+                // VOLUME IS 100% (1.0)
                 music.volume = 1.0; 
                 const playPromise = music.play();
                 
@@ -252,12 +235,10 @@
                     playPromise.then(_ => {
                         // Play started successfully
                         isMusicPlaying = true;
-                        updateMusicIcon();
                     })
                     .catch(error => {
-                        console.log("Music autoplay prevented. User needs to interact.", error);
+                        console.error("Music autoplay prevented. Please check device settings or browser console for more details.", error);
                         isMusicPlaying = false;
-                        updateMusicIcon();
                     });
                 }
             }
@@ -269,29 +250,6 @@
             }
         }
 
-        // Function to toggle music manually
-        function toggleMusic() {
-            if (music.paused) {
-                music.play();
-                isMusicPlaying = true;
-            } else {
-                music.pause();
-                isMusicPlaying = false;
-            }
-            updateMusicIcon();
-        }
-
-        // Update icon based on state
-        function updateMusicIcon() {
-            if (isMusicPlaying) {
-                musicBtn.innerHTML = '🔊'; // Sound On
-                musicBtn.style.opacity = '1';
-            } else {
-                musicBtn.innerHTML = '🔇'; // Sound Off
-                musicBtn.style.opacity = '0.7';
-            }
-        }
-
         // --- Event Listeners ---
 
         // 1. User taps the main overlay to enter
@@ -299,13 +257,14 @@
             overlay.addEventListener('click', startExperience);
         }
 
-        // 2. User toggles the floating button
+        /* // 2. User toggles the floating button - REMOVED AS PER USER REQUEST
         if (musicBtn) {
             musicBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent bubbling
+                e.stopPropagation(); 
                 toggleMusic();
             });
         }
+        */
     </script>
 </body>
 </html>
