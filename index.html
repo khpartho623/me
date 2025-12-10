@@ -7,16 +7,10 @@
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <! -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     
     <style>
-        /* Define variables for the sparkle effect */
-        :root {
-            /* ঔজ্জ্বল্য (Glow) সংক্রান্ত ভেরিয়েবলগুলো সম্পূর্ণরূপে সরিয়ে দেওয়া হলো */
-        }
-        
-        /**/
         body {
             font-family: 'Varela Round', sans-serif;
             margin: 0;
@@ -37,63 +31,85 @@
             background-size: cover;
             filter: brightness(0.6); /* Darken the video for text readability */
         }
+
         .profile-container {
             backdrop-filter: blur(10px);
-            background-color: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background (User's request) */
+            background-color: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
             max-height: 90vh; /* Limit height for smaller screens */
             overflow-y: auto; /* Enable scroll if content is long */
-            /* Custom scrollbar styling for better look */
+            /* Custom scrollbar styling */
             scrollbar-width: none; /* Firefox */
         }
         .profile-container::-webkit-scrollbar {
             display: none; /* Chrome, Safari, Opera */
         }
         
-        /* Custom class for username - এখন শুধুমাত্র সাদা রঙ এবং এক লাইনে রাখার জন্য ব্যবহৃত */
+        /* Custom class for username */
         .username-glow {
-            /* text-shadow এবং background-clip প্রপার্টিগুলো সরিয়ে দেওয়া হলো */
-            /* নিশ্চিত করুন যে নামটি এক লাইনে থাকে (no line break) */
-            white-space: nowrap; /* <-- এই প্রপার্টিটি লাইন ব্রেক হওয়া থেকে আটকায় */
-            /* ফন্টের রঙ সাদা করে দেওয়া হলো */
+            white-space: nowrap; /* Prevent line break */
             color: white; 
         }
-        /* Custom class for internal section backgrounds (using Tailwind bg-white/10 as requested by user's structure) */
+
+        /* Overlay for click interaction */
+        #audio-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.5s ease;
+        }
+        .tap-text {
+            color: white;
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
 
     <!-- 1. AUDIO/ENTRY OVERLAY (Click to Enter) -->
+    <div id="audio-overlay">
+        <div class="tap-text">Tap to Enter</div>
+    </div>
     
-    <!-- Video Background (Keep muted in HTML, unmute via interaction) -->    
-    <!-- Note: You need to replace 'YOUR_VIDEO_URL_HERE' with an actual video URL for the background to show -->
+    <!-- Video Background -->    
     <video autoplay loop muted playsinline id="video-background">        
         <!-- Placeholder source, replace with your actual video URL -->
-        <source src="YOUR_VIDEO_URL_HERE" type="video/mp4" onerror="this.parentElement.style.display='none'"> 
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4" onerror="this.parentElement.style.display='none'"> 
     </video>
 
     <!-- Main Profile Container -->    
-    <!-- Applying border-white/10 to the main container, as in the user's base -->
     <main class="w-full max-w-2xl mx-auto p-6 md:p-8 rounded-xl shadow-2xl profile-container border border-white/10 z-10">
 
         <!-- Header: Name and Avatar -->        
         <header class="flex flex-col items-center mb-8 pt-4">
                         
-            <!-- Placeholder Avatar - Using local image path provided by the user -->            
+            <!-- Avatar -->            
             <div class="w-32 h-32 bg-white/20 rounded-full mb-4 border-4 border-white/50 flex items-center justify-center overflow-hidden shadow-lg">                
-                <!-- If the local image fails, it falls back to a placeholder -->
                 <img src="25-11-12_20-49-57-539.jpg" alt="Md. Kamrul Hasan (Partho)" class="object-cover w-full h-full" onerror="this.onerror=null; this.src='https://placehold.co/128x128/007bff/ffffff?text=KH+P'">
             </div>
 
-            <!-- Name: এখন গ্লো নেই, শুধুমাত্র সাদা রঙে স্পষ্ট -->
+            <!-- Name -->
             <h1 class="text-4xl font-extrabold text-center mb-1 tracking-wide username-glow">Md. Kamrul Hasan</h1>
             
         </header>
 
 
-        <!-- Personal Details Table Mimic (Removed justify-between and added gap-2 for minimal space) -->            
+        <!-- Personal Details Table Mimic -->            
         <div class="space-y-4 mb-10 p-4 bg-white/10 rounded-lg border border-blue-500/30 shadow-inner">              
-             <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                          
-             <!-- Full Name -->
+             <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                       
+             <!-- Full Name: Added 2 spaces (&nbsp;&nbsp;) at the end as requested -->
              <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
                 <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Full Name:</label>                
                 <span class="text-white whitespace-nowrap">Md. Kamrul Hasan (Partho)&nbsp;&nbsp;</span>            
@@ -113,7 +129,7 @@
                 <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Current Location:</label>                
                 <span class="text-white whitespace-nowrap">Rajshahi</span>            
             </div>            
-            <!-- Dream (The value text is allowed to wrap if necessary) -->
+            <!-- Dream -->
             <div class="flex items-top gap-2">                
                 <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Dream:</label>                
                 <span class="text-white">To be a good person and do something great for the country</span>            
@@ -133,11 +149,11 @@
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
                 <h3 class="text-2xl font-bold mb-3 text-amber-300">Skills and Expertise</h3>                
                 <p class="text-white/90 mb-3">Md. Kamrul Hasan is a highly skilled individual with expertise in a wide range of areas. His skills include:</p>                
-                <ul class="list-disc list-inside space-y-2 pl-4 text-white/90">                    
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Writing and content creation</li>                    
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Idea Invention</li>                    
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Science project development</li>                    
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic Programming</li>                    
+                <ul class="list-disc list-inside space-y-2 pl-4 text-white/90">                      
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Writing and content creation</li>                      
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Idea Invention</li>                      
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Science project development</li>                      
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic Programming</li>                      
                     <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic app and web development</li>                
                 </ul>                
                 <p class="text-white/90 mt-4 leading-relaxed">His versatile talents showcase his passion for both academic pursuits and practical applications of technology, making him stand out as a young innovator and creative thinker.</p>            
@@ -147,7 +163,7 @@
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
                 <h3 class="text-2xl font-bold mb-3 text-amber-300">Dreams and Aspirations</h3>                
                 <p class="text-white/90 leading-relaxed">Md. Kamrul Hasan aspires to be a good person and make meaningful contributions to his country. His goal is to utilize his skills and talents to help improve his community and contribute to the development of his nation.</p>            
-            </div>                          
+            </div>                           
             
             <!-- Nickname -->            
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
@@ -158,10 +174,9 @@
             <!-- Contact -->            
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
                 <h3 class="2xl font-bold mb-3 text-amber-300">Contact</h3>                
-                <p class="text-white/90">                    
-                    <!-- Contact details should wrap if they are too long, but the label "Phone:" should not wrap. -->
-                    <label class="font-semibold text-white/70 block">Phone:</label> 01751348227<br>                    
-                    <label class="font-semibold text-white/70 block mt-2">WhatsApp:</label> 01751348227<br>                    
+                <p class="text-white/90">                      
+                    <label class="font-semibold text-white/70 block">Phone:</label> 01751348227<br>                      
+                    <label class="font-semibold text-white/70 block mt-2">WhatsApp:</label> 01751348227<br>                      
                     <label class="font-semibold text-white/70 block mt-2">E-mail:</label> khpartho623@gmail.com                
                 </p>            
             </div>        
