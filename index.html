@@ -6,21 +6,25 @@
     <title>KH Partho - Personal Profile</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Use Inter font family -->
+
+    <!-- 🌟 Varela Round ফন্ট লোড করা হলো 🌟 -->
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    
     <style>
         /* Define variables for the sparkle effect */
         :root {
             /* Increased glow strength for better visibility */
-            --colorUsernameGlow: 0 0 25px #ffffff, 0 0 5px #f8f9fa; 
-            --usernameEffects: url(https://assets.guns.lol/sparkle_fuzzy.gif);
+            --colorUsernameGlow: 0 0 25px #ffffff, 0 0 5px #f8f9fa;
         }
-
+        
+        /* 🌟 এখানে Varela Round ফন্ট ব্যবহার করা হলো 🌟 */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Varela Round', sans-serif;
             margin: 0;
             padding: 0;
             overflow: hidden; /* Hide body scrollbar */
         }
+        
         /* Custom CSS to ensure video covers the entire viewport */
         #video-background {
             position: fixed;
@@ -49,6 +53,8 @@
         /* Custom class for username glow and sparkle effect (Re-implemented) */
         .username-glow {
             text-shadow: var(--colorUsernameGlow);
+            /* নিশ্চিত করুন যে নামটি এক লাইনে থাকে (no line break) */
+            white-space: nowrap; 
             
             /* Add Sparkle GIF as background, clip to text, and make text color semi-transparent */
             background-image: var(--usernameEffects);
@@ -67,43 +73,36 @@
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
 
     <!-- 1. AUDIO/ENTRY OVERLAY (Click to Enter) -->
-    <div id="audio-overlay" class="fixed inset-0 bg-gray-900/90 z-50 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500">
-        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 animate-pulse">
-            WELCOME 🥰
-        </h2>
-       
-    </div>
-  
+    
     <!-- Video Background (Keep muted in HTML, unmute via interaction) -->    
+    <!-- Note: You need to replace 'YOUR_VIDEO_URL_HERE' with an actual video URL for the background to show -->
     <video autoplay loop muted playsinline id="video-background">        
-        <!-- Using the video URL from the previous context -->        
-        <source src="https://r2.guns.lol/aae8abd9-3d55-43d8-b2a2-ebae641065b2.mp4" type="video/mp4">        
-        Your browser does not support the video tag.    
+        <!-- Placeholder source, replace with your actual video URL -->
+        <source src="YOUR_VIDEO_URL_HERE" type="video/mp4" onerror="this.parentElement.style.display='none'"> 
     </video>
 
     <!-- Main Profile Container -->    
     <!-- Applying border-white/10 to the main container, as in the user's base -->
     <main class="w-full max-w-2xl mx-auto p-6 md:p-8 rounded-xl shadow-2xl profile-container border border-white/10 z-10">
 
-        <!-- Header: Name and Avatar (Removed the dark box class 'bg-white/10' from header to align with user's base structure which was missing it) -->        
+        <!-- Header: Name and Avatar -->        
         <header class="flex flex-col items-center mb-8 pt-4">
                         
             <!-- Placeholder Avatar - Using local image path provided by the user -->            
             <div class="w-32 h-32 bg-white/20 rounded-full mb-4 border-4 border-white/50 flex items-center justify-center overflow-hidden shadow-lg">                
+                <!-- If the local image fails, it falls back to a placeholder -->
                 <img src="25-11-12_20-49-57-539.jpg" alt="Md. Kamrul Hasan (Partho)" class="object-cover w-full h-full" onerror="this.onerror=null; this.src='https://placehold.co/128x128/007bff/ffffff?text=KH+P'">
             </div>
 
-            <!-- Applying the sparkle/glow effect to the main name -->
-            <!-- Note: User's provided structure had (Partho) inside H1, but here we separate it for the sparkle effect -->
+            <!-- Name with sparkle/glow effect -->
             <h1 class="text-4xl font-extrabold text-center mb-1 tracking-wide username-glow">Md. Kamrul Hasan</h1>
             
         </header>
 
 
-        <!-- Personal Details Table Mimic -->        
-        <!-- Background set to bg-white/10 (semi-transparent dark mode look) as per user's base -->
-        <div class="space-y-4 mb-10 p-4 bg-white/10 rounded-lg border border-blue-500/30 shadow-inner">             
-             <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                        
+        <!-- Personal Details Table Mimic -->            
+        <div class="space-y-4 mb-10 p-4 bg-white/10 rounded-lg border border-blue-500/30 shadow-inner">              
+             <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                          
              <div class="flex justify-between items-center border-b border-white/20 pb-2">                
                 <label class="font-semibold text-white/70">Full Name:</label>                
                 <span class="text-white">Md. Kamrul Hasan (Partho)</span>            
@@ -127,8 +126,8 @@
         </div>
 
                 
-        <!-- Bio and Skill Sections -->        
-        <div class="space-y-8">                        
+        <!-- Bio and Skill Sections -->            
+        <div class="space-y-8">                            
             <!-- Early Life and Education -->            
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">
                 <h3 class="text-2xl font-bold mb-3 text-amber-300">Early Life and Education</h3>
@@ -153,7 +152,7 @@
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
                 <h3 class="text-2xl font-bold mb-3 text-amber-300">Dreams and Aspirations</h3>                
                 <p class="text-white/90 leading-relaxed">Md. Kamrul Hasan aspires to be a good person and make meaningful contributions to his country. His goal is to utilize his skills and talents to help improve his community and contribute to the development of his nation.</p>            
-            </div>                        
+            </div>                          
             
             <!-- Nickname -->            
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
@@ -195,7 +194,7 @@
             if (overlay) {                
                 overlay.style.opacity = '0';                
                 // Remove element after transition completes (0.5s)                
-                setTimeout(() => overlay.style.display = 'none', 500);             
+                setTimeout(() => overlay.style.display = 'none', 500);            
             }        
         }
 
