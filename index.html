@@ -29,242 +29,241 @@
             height: auto;
             z-index: -100;
             background-size: cover;
-            filter: brightness(0.6); /* Darken the video for text readability */
+            /* Filter ADJUSTED for a darker, ethereal background feel for DARK MODE */
+            filter: brightness(0.4); 
         }
 
         .profile-container {
-            backdrop-filter: blur(10px);
-            background-color: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
+            /* FULLY TRANSPARENT: Removed backdrop-filter (blur) and background color */
             max-height: 90vh; /* Limit height for smaller screens */
             overflow-y: auto; /* Enable scroll if content is long */
-            /* Custom scrollbar styling */
+            
+            /* Custom scrollbar styling (hidden) */
             scrollbar-width: none; /* Firefox */
         }
         .profile-container::-webkit-scrollbar {
             display: none; /* Chrome, Safari, Opera */
         }
         
-        /* Custom class for username */
+        /* Custom class for username in Dark Mode (White text with subtle glow) */
         .username-glow {
             white-space: nowrap; /* Prevent line break */
-            color: white; 
+            color: #ffffff; /* Changed to White */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Subtle white glow effect */
         }
 
-        /* Overlay for click interaction */
-        #audio-overlay {
+        /* --- Shooting Star Effect CSS --- */
+        #shooting-stars-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: opacity 0.5s ease;
-        }
-        .tap-text {
-            color: white;
-            font-size: 2rem;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            z-index: -90; /* Above video, below content */
+            pointer-events: none;
+            overflow: hidden;
         }
 
-        /* Floating Music Control Button (Hidden/Removed) */
-        /* Note: The CSS for the music control button is kept in case it's needed later, 
-           but the HTML button and its logic in JS are removed. */
-        #music-control {
-            display: none; /* Ensure it is hidden if accidentally kept */
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 2px #fff;
+            opacity: 0;
+            /* Star animation setup */
+            animation: star-fall 10s linear infinite;
         }
+
+        @keyframes star-fall {
+            0% {
+                transform: translate(0, 0) scale(0.5);
+                opacity: 0;
+            }
+            1% {
+                opacity: 1; /* Quick fade in */
+            }
+            10% {
+                opacity: 1;
+            }
+            80% {
+                /* Moves the star diagonally off-screen */
+                transform: translate(250vw, 250vh) scale(1.5); 
+                opacity: 0.2;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        /* Apply different starting positions and delays for each star */
+        .star:nth-child(1) { top: 0; left: 10vw; animation-delay: 0s; animation-duration: 9s; }
+        .star:nth-child(2) { top: 20vh; left: 50vw; animation-delay: 2s; animation-duration: 12s; }
+        .star:nth-child(3) { top: 80vh; left: 70vw; animation-delay: 5s; animation-duration: 7s; }
+        .star:nth-child(4) { top: 10vh; left: 90vw; animation-delay: 8s; animation-duration: 11s; }
+        .star:nth-child(5) { top: 50vh; left: 30vw; animation-delay: 11s; animation-duration: 8s; }
+        .star:nth-child(6) { top: 70vh; left: 5vw; animation-delay: 1s; animation-duration: 10s; }
+        .star:nth-child(7) { top: 30vh; left: 80vw; animation-delay: 3s; animation-duration: 9s; }
+        .star:nth-child(8) { top: 5vh; left: 40vw; animation-delay: 6s; animation-duration: 13s; }
+        .star:nth-child(9) { top: 90vh; left: 20vw; animation-delay: 9s; animation-duration: 7s; }
+        .star:nth-child(10) { top: 40vh; left: 95vw; animation-delay: 12s; animation-duration: 10s; }
+
     </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
+<!-- Body background changed to dark gray (bg-gray-900) and default text to light gray (text-gray-100) -->
+<body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center p-4">
 
-    <!-- 1. AUDIO/ENTRY OVERLAY (Click to Enter) -->
-    <div id="audio-overlay">
-        <div class="tap-text">Tap to Enter</div>
-    </div>
-    
-    <!-- 2. Background Music (Updated Link) -->
-    <!-- Music will start automatically after the user clicks the overlay. -->
-    <audio id="bg-music" loop preload="auto">
-        <source src="https://cdn.pixabay.com/audio/2023/12/12/audio_cf2514cd8c.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
-
-    <!-- Floating Music Toggle Button: REMOVED -->
-
-    <!-- Video Background -->    
+    <!-- Video Background (Autoplay, Loop, Muted for compliance) -->    
     <video autoplay loop muted playsinline id="video-background">        
-        <!-- Placeholder source, replace with your actual video URL -->
+        <!-- Placeholder source -->
         <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4" onerror="this.parentElement.style.display='none'"> 
     </video>
 
-    <!-- Main Profile Container -->    
-    <main class="w-full max-w-2xl mx-auto p-6 md:p-8 rounded-xl shadow-2xl profile-container border border-white/10 z-10">
+    <!-- Shooting Stars Container (Total 10 stars now) -->
+    <div id="shooting-stars-container">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Main Profile Container (Removed all borders and shadows) -->    
+    <main class="w-full max-w-2xl mx-auto p-6 md:p-8 rounded-xl profile-container z-10">
 
         <!-- Header: Name and Avatar -->        
         <header class="flex flex-col items-center mb-8 pt-4">
                         
-            <!-- Avatar -->            
-            <div class="w-32 h-32 bg-white/20 rounded-full mb-4 border-4 border-white/50 flex items-center justify-center overflow-hidden shadow-lg">                
-                <img src="25-11-12_20-49-57-539.jpg" alt="Md. Kamrul Hasan (Partho)" class="object-cover w-full h-full" onerror="this.onerror=null; this.src='https://placehold.co/128x128/007bff/ffffff?text=KH+P'">
+            <!-- Avatar - Border color changed to white/80 for 80% opacity -->
+            <div class="w-32 h-32 bg-transparent rounded-full mb-4 border-4 border-white/80 flex items-center justify-center overflow-hidden">                
+                <img src="25-11-12_20-49-57-539.jpg" alt="Md. Kamrul Hasan (Partho)" class="object-cover w-full h-full" onerror="this.onerror=null; this.src='https://placehold.co/128x128/3b82f6/ffffff?text=KH+P'">
             </div>
 
-            <!-- Name -->
-            <h1 class="text-4xl font-extrabold text-center mb-1 tracking-wide username-glow">Md. Kamrul Hasan</h1>
+            <!-- Name (H1 - White Text with glow) -->
+            <h1 class="text-4xl font-extrabold text-center mb-1 tracking-wide username-glow text-white">Md. Kamrul Hasan</h1>
             
         </header>
 
+        <!-- START: INDIVIDUAL CONTENT SECTIONS WRAPPED IN SEPARATE BOXES -->
 
-        <!-- Personal Details Table Mimic -->            
-        <div class="space-y-4 mb-10 p-4 bg-white/10 rounded-lg border border-blue-500/30 shadow-inner">              
-             <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                       
-           
-             <div class="flex items-start border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Name:</label>                
-                <span class="text-white">Md. Kamrul Hasan (Partho)</span>            
-            </div>            
-             <!-- Date of Birth -->
-             <!-- Text overflow fixed: removed whitespace-nowrap from span and used items-start -->
-            <div class="flex items-start border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Date of Birth:</label>                
-                <span class="text-white">23 February 2006</span>            
-            </div>            
-             <!-- Address -->
-             <!-- Text overflow fixed: removed whitespace-nowrap from span and used items-start -->
-            <div class="flex items-start border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Address:</label>                
-                <span class="text-white">Singra, Natore</span>            
-            </div>            
-             <!-- Current Location -->
-             <!-- Text overflow fixed: removed whitespace-nowrap from span and used items-start -->
-            <div class="flex items-start border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Current Location:</label>                
-                <span class="text-white">Rajshahi</span>            
-            </div>            
-            <!-- Dream -->
-            <!-- Text overflow fixed: removed whitespace-nowrap from span and used items-start -->
-            <div class="flex items-start gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Dream:</label>                
-                <span class="text-white">To be a good person and do something great for the country</span>            
-            </div>        
+        <!-- 1. Personal Details Section Box -->            
+        <!-- Border color changed from blue-400/50 to white/50 -->
+        <div class="bg-gray-900/50 rounded-xl border border-white/50 shadow-xl p-6 mb-6">
+            <div class="space-y-4">              
+                 <!-- Title color changed to text-blue-400 -->
+                 <h2 class="text-2xl font-bold text-blue-400 mb-4 text-center">Personal Details</h2>                       
+                 
+                 <!-- Name - Layout changed to start from the left -->
+                 <div class="pb-2 border-b border-gray-700/50">
+                    <span class="font-semibold text-gray-400 mr-1">Name:</span>                
+                    <span class="text-gray-200">Md. Kamrul Hasan (Partho)</span>            
+                </div>            
+                
+                 <!-- Date of Birth - Layout changed to start from the left -->
+                <div class="pb-2 border-b border-gray-700/50">
+                    <span class="font-semibold text-gray-400 mr-1">Date of Birth:</span>                
+                    <span class="text-gray-200">23 February 2006</span>            
+                </div>            
+                
+                 <!-- Address - Layout changed to start from the left -->
+                <div class="pb-2 border-b border-gray-700/50">
+                    <span class="font-semibold text-gray-400 mr-1">Address:</span>                
+                    <span class="text-gray-200">Singra, Natore</span>            
+                </div>            
+                
+                 <!-- Current Location - Layout changed to start from the left -->
+                <div class="pb-2 border-b border-gray-700/50">
+                    <span class="font-semibold text-gray-400 mr-1">Current Location:</span>                
+                    <span class="text-gray-200">Rajshahi</span>            
+                </div>            
+                
+                <!-- Dream - Layout changed to start from the left -->
+                <div class="pb-2">                
+                    <span class="font-semibold text-gray-400 mr-1">Dream:</span>                
+                    <span class="text-gray-200">To be a good person and do something great for the country</span>            
+                </div>        
+            </div>
         </div>
 
-                
-        <!-- Bio and Skill Sections -->            
-        <div class="space-y-8">                            
-            <!-- Early Life and Education -->            
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">
-                <h3 class="text-2xl font-bold mb-3 text-amber-300">Early Life and Education</h3>
-                <p class="text-white/90 leading-relaxed">Md. Kamrul Hasan, born on 23 February 2006, is a promising young individual from Singra, Natore. He completed his Primary School Certificate (PSC) at Biam Laboratory School and College. Kamrul then continued his studies at Singra Damdama Pilot School and College, where he studied from class 6 to class 10. After completing his secondary education, he moved to Rajshahi to pursue further studies at Rajshahi Education Board Govt. Model School and College.</p>            
-            </div>
+                    
+        <!-- 2. Early Life and Education Section Box -->            
+        <!-- Border color changed from blue-400/50 to white/50 -->
+        <div class="bg-gray-900/50 rounded-xl border border-white/50 shadow-xl p-6 mb-6">
+            <!-- Title color changed to text-blue-400 -->
+            <h3 class="text-2xl font-bold mb-3 text-blue-400">Early Life and Education</h3>
+            <p class="text-gray-300 leading-relaxed">Md. Kamrul Hasan, born on 23 February 2006, is a promising young individual from Singra, Natore. He completed his Primary School Certificate (PSC) at Biam Laboratory School and College. Kamrul then continued his studies at Singra Damdama Pilot School and College, where he studied from class 6 to class 10. After completing his secondary education, he moved to Rajshahi to pursue further studies at Rajshahi Education Board Govt. Model School and College.</p>            
+        </div>
 
-            <!-- Skills and Expertise -->            
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
-                <h3 class="text-2xl font-bold mb-3 text-amber-300">Skills and Expertise</h3>                
-                <p class="text-white/90 mb-3">Md. Kamrul Hasan is a highly skilled individual with expertise in a wide range of areas. His skills include:</p>                
-                <ul class="list-disc list-inside space-y-2 pl-4 text-white/90">                      
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Writing and content creation</li>                      
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Idea Invention</li>                      
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Science project development</li>                      
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic Programming</li>                      
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic app and web development</li>                
-                </ul>                
-                <p class="text-white/90 mt-4 leading-relaxed">His versatile talents showcase his passion for both academic pursuits and practical applications of technology, making him stand out as a young innovator and creative thinker.</p>            
-            </div>
+        <!-- 3. Skills and Expertise Section Box -->            
+        <!-- Border color changed from blue-400/50 to white/50 -->
+        <div class="bg-gray-900/50 rounded-xl border border-white/50 shadow-xl p-6 mb-6">
+            <!-- Title color changed to text-blue-400 -->
+            <h3 class="text-2xl font-bold mb-3 text-blue-400">Skills and Expertise</h3>                
+            <p class="text-gray-300 mb-3">Md. Kamrul Hasan is a highly skilled individual with expertise in a wide range of areas. His skills include:</p>                
+            <ul class="list-disc list-inside space-y-2 pl-4 text-gray-300">                      
+                <!-- Bullet points color changed to match the text color (text-gray-300) -->
+                <li class="flex items-start"><span class="text-gray-300 mr-2">•</span>Writing and content creation</li>                      
+                <li class="flex items-start"><span class="text-gray-300 mr-2">•</span>Idea Invention</li>                      
+                <li class="flex items-start"><span class="text-gray-300 mr-2">•</span>Science project development</li>                      
+                <li class="flex items-start"><span class="text-gray-300 mr-2">•</span>Basic Programming</li>                      
+                <li class="flex items-start"><span class="text-gray-300 mr-2">•</span>Basic app and web development</li>                
+            </ul>                
+            <p class="text-gray-300 mt-4 leading-relaxed">His versatile talents showcase his passion for both academic pursuits and practical applications of technology, making him stand out as a young innovator and creative thinker.</p>            
+        </div>
 
-            <!-- Dreams and Aspirations -->            
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
-                <h3 class="text-2xl font-bold mb-3 text-amber-300">Dreams and Aspirations</h3>                
-                <p class="text-white/90 leading-relaxed">Md. Kamrul Hasan aspires to be a good person and make meaningful contributions to his country. His goal is to utilize his skills and talents to help improve his community and contribute to the development of his nation.</p>            
-            </div>                           
-            
-            <!-- Nickname -->            
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
-                <h3 class="text-2xl font-bold mb-3 text-amber-300">Nickname</h3>                
-                <p class="text-white/90 leading-relaxed">He is affectionately known by close friends and family as <strong class="text-blue-400">Partho</strong>, a nickname that signifies his personal connections and relationships.</p>            
-            </div>
+        <!-- 4. Dreams and Aspirations Section Box -->            
+        <!-- Border color changed from blue-400/50 to white/50 -->
+        <div class="bg-gray-900/50 rounded-xl border border-white/50 shadow-xl p-6 mb-6">
+            <!-- Title color changed to text-blue-400 -->
+            <h3 class="text-2xl font-bold mb-3 text-blue-400">Dreams and Aspirations</h3>                
+            <p class="text-gray-300 leading-relaxed">Md. Kamrul Hasan aspires to be a good person and make meaningful contributions to his country. His goal is to utilize his skills and talents to help improve his community and contribute to the development of his nation.</p>            
+        </div>                           
+        
+        <!-- 5. Nickname Section Box -->            
+        <!-- Border color changed from blue-400/50 to white/50 -->
+        <div class="bg-gray-900/50 rounded-xl border border-white/50 shadow-xl p-6 mb-6">
+            <!-- Title color changed to text-blue-400 -->
+            <h3 class="text-2xl font-bold mb-3 text-blue-400">Nickname</h3>                
+            <!-- Nickname strong tag color removed to make it normal (text-gray-300 inherited) -->
+            <p class="text-gray-300 leading-relaxed">He is affectionately known by close friends and family as <strong>Partho</strong>, a nickname that signifies his personal connections and relationships.</p>            
+        </div>
 
-            <!-- Contact -->            
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
-                <h3 class="2xl font-bold mb-3 text-amber-300">Contact</h3>                
-                <p class="text-white/90">                      
-                    <label class="font-semibold text-white/70 block">Phone:</label> 01751348227<br>                      
-                    <label class="font-semibold text-white/70 block mt-2">WhatsApp:</label> 01751348227<br>                      
-                    <label class="font-semibold text-white/70 block mt-2">E-mail:</label> khpartho623@gmail.com                
-                </p>            
-            </div>        
+        <!-- 6. Contact Section Box -->            
+        <!-- Border color changed from blue-400/50 to white/50 -->
+        <div class="bg-gray-900/50 rounded-xl border border-white/50 shadow-xl p-6 mb-8">
+            <!-- Title color changed to text-blue-400 -->
+            <h3 class="text-2xl font-bold mb-3 text-blue-400">Contact</h3>                
+            <p class="text-gray-300">                      
+                <label class="font-semibold text-gray-400 block">Phone:</label> 01751348227<br>                      
+                <label class="font-semibold text-gray-400 block mt-2">WhatsApp:</label> 01751348227<br>                      
+                <label class="font-semibold text-gray-400 block mt-2">E-mail:</label> khpartho623@gmail.com                
+            </p>            
         </div>
         
-        <!-- Footer -->        
-        <p class="text-center text-white/70 mt-8 text-lg font-medium">Thanks for visiting my website!!🥰</p>
+        <!-- END: INDIVIDUAL CONTENT SECTIONS WRAPPED IN SEPARATE BOXES -->
+        
+        <!-- Footer (Text color adjusted for dark background) -->        
+        <p class="text-center text-gray-400 mt-8 text-lg font-medium">Thanks for visiting my website!!🥰</p>
 
     </main>
     
-    <!-- JavaScript for Audio/Video Interaction -->    
+    <!-- JavaScript for Video Autoplay -->    
     <script>        
-        // --- Music & Interaction Logic ---
-        
         const video = document.getElementById('video-background');            
-        const music = document.getElementById('bg-music');
-        const overlay = document.getElementById('audio-overlay');
-        // musicBtn is removed as per user request.
-        let isMusicPlaying = false;
 
-        // Function to start everything
-        function startExperience() {
-            // 1. Play Video
+        // Start video immediately on load. Muted autoplay is generally permitted.
+        window.onload = function() {
             if (video) {                
-                video.muted = true; 
-                video.play().catch(e => console.log("Video autoplay blocked or failed:", e));            
+                video.muted = true; // Ensure it is muted
+                video.play().catch(e => console.error("Video autoplay blocked or failed:", e));            
             }
-
-            // 2. Play Music
-            if (music) {
-                // VOLUME IS 100% (1.0)
-                music.volume = 1.0; 
-                const playPromise = music.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        // Play started successfully
-                        isMusicPlaying = true;
-                    })
-                    .catch(error => {
-                        console.error("Music autoplay prevented. Please check device settings or browser console for more details.", error);
-                        isMusicPlaying = false;
-                    });
-                }
-            }
-
-            // 3. Hide Overlay
-            if (overlay) {                
-                overlay.style.opacity = '0';                
-                setTimeout(() => overlay.style.display = 'none', 500);            
-            }
-        }
-
-        // --- Event Listeners ---
-
-        // 1. User taps the main overlay to enter
-        if (overlay) {
-            overlay.addEventListener('click', startExperience);
-        }
-
-        /* // 2. User toggles the floating button - REMOVED AS PER USER REQUEST
-        if (musicBtn) {
-            musicBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); 
-                toggleMusic();
-            });
-        }
-        */
+        };
     </script>
 </body>
 </html>
