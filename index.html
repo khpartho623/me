@@ -8,6 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Use Inter font family -->
     <style>
+        /* Define variables for the sparkle effect */
+        :root {
+            /* Increased glow strength for better visibility */
+            --colorUsernameGlow: 0 0 25px #ffffff, 0 0 5px #f8f9fa; 
+            --usernameEffects: url(https://assets.guns.lol/sparkle_fuzzy.gif);
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -29,7 +36,7 @@
         }
         .profile-container {
             backdrop-filter: blur(10px);
-            background-color: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background (User's request) */
             max-height: 90vh; /* Limit height for smaller screens */
             overflow-y: auto; /* Enable scroll if content is long */
             /* Custom scrollbar styling for better look */
@@ -38,143 +45,169 @@
         .profile-container::-webkit-scrollbar {
             display: none; /* Chrome, Safari, Opera */
         }
+        
+        /* Custom class for username glow and sparkle effect (Re-implemented) */
+        .username-glow {
+            text-shadow: var(--colorUsernameGlow);
+            
+            /* Add Sparkle GIF as background, clip to text, and make text color semi-transparent */
+            background-image: var(--usernameEffects);
+            background-size: 150px 150px; /* Make the GIF background larger for better effect */
+            background-repeat: repeat;
+            
+            /* Set a very faint white color instead of fully transparent to ensure shadow is not clipped */
+            color: rgba(255, 255, 255, 0.1); 
+            
+            -webkit-background-clip: text; /* For Safari/Chrome */
+            background-clip: text;
+        }
+        /* Custom class for internal section backgrounds (using Tailwind bg-white/10 as requested by user's structure) */
     </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
 
     <!-- 1. AUDIO/ENTRY OVERLAY (Click to Enter) -->
+    <div id="audio-overlay" class="fixed inset-0 bg-gray-900/90 z-50 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500">
+        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 animate-pulse">
+            Click to Enter
+        </h2>
+        <p class="text-white/70 text-sm">
+            (Warning: Background audio/video will start playing)
+        </p>
+    </div>
   
-
-    <!-- Video Background (Keep muted in HTML, unmute via interaction) -->
-    <video autoplay loop muted playsinline id="video-background">
-        <!-- Using the video URL from the previous context -->
-        <source src="https://r2.guns.lol/aae8abd9-3d55-43d8-b2a2-ebae641065b2.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+    <!-- Video Background (Keep muted in HTML, unmute via interaction) -->    
+    <video autoplay loop muted playsinline id="video-background">        
+        <!-- Using the video URL from the previous context -->        
+        <source src="https://r2.guns.lol/aae8abd9-3d55-43d8-b2a2-ebae641065b2.mp4" type="video/mp4">        
+        Your browser does not support the video tag.    
     </video>
 
-    <!-- Main Profile Container -->
+    <!-- Main Profile Container -->    
+    <!-- Applying border-white/10 to the main container, as in the user's base -->
     <main class="w-full max-w-2xl mx-auto p-6 md:p-8 rounded-xl shadow-2xl profile-container border border-white/10 z-10">
 
-        <!-- Header: Name and Avatar -->
+        <!-- Header: Name and Avatar (Removed the dark box class 'bg-white/10' from header to align with user's base structure which was missing it) -->        
         <header class="flex flex-col items-center mb-8 pt-4">
-            
-            <!-- Placeholder Avatar (Using Tailwind for aspect ratio and styling) -->
-            <div class="w-32 h-32 bg-white/20 rounded-full mb-4 border-4 border-white/50 flex items-center justify-center overflow-hidden shadow-lg">
-                <img src="25-11-12_20-49-57-539.jpg" alt="Md. Kamrul Hasan (Partho)" class="object-cover w-full h-full">
+                        
+            <!-- Placeholder Avatar - Using local image path provided by the user -->            
+            <div class="w-32 h-32 bg-white/20 rounded-full mb-4 border-4 border-white/50 flex items-center justify-center overflow-hidden shadow-lg">                
+                <img src="25-11-12_20-49-57-539.jpg" alt="Md. Kamrul Hasan (Partho)" class="object-cover w-full h-full" onerror="this.onerror=null; this.src='https://placehold.co/128x128/007bff/ffffff?text=KH+P'">
             </div>
 
-            <h1 class="text-4xl font-extrabold text-center mb-1 text-white tracking-wide">Md. Kamrul Hasan (Partho)</h1>
-           
+            <!-- Applying the sparkle/glow effect to the main name -->
+            <!-- Note: User's provided structure had (Partho) inside H1, but here we separate it for the sparkle effect -->
+            <h1 class="text-4xl font-extrabold text-center mb-1 tracking-wide username-glow">Md. Kamrul Hasan</h1>
+            
         </header>
 
 
-        <!-- Personal Details Table Mimic -->
-        <div class="space-y-4 mb-10 p-4 bg-white/10 rounded-lg border border-blue-500/30 shadow-inner">
-             <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>
-            
-            <div class="flex justify-between items-center border-b border-white/20 pb-2">
-                <label class="font-semibold text-white/70">Full Name:</label>
-                <span class="text-white">Md. Kamrul Hasan (Partho)</span>
-            </div>
-            <div class="flex justify-between items-center border-b border-white/20 pb-2">
-                <label class="font-semibold text-white/70">Date of Birth:</label>
-                <span class="text-white">23 February 2006</span>
-            </div>
-            <div class="flex justify-between items-center border-b border-white/20 pb-2">
-                <label class="font-semibold text-white/70">Address:</label>
-                <span class="text-white">Singra, Natore</span>
-            </div>
-            <div class="flex justify-between items-center border-b border-white/20 pb-2">
-                <label class="font-semibold text-white/70">Current Location:</label>
-                <span class="text-white">Rajshahi</span>
-            </div>
-            <div class="flex justify-between items-center">
-                <label class="font-semibold text-white/70">Dream:</label>
-                <span class="text-white text-right">To be a good person and do something great for the country</span>
-            </div>
+        <!-- Personal Details Table Mimic -->        
+        <!-- Background set to bg-white/10 (semi-transparent dark mode look) as per user's base -->
+        <div class="space-y-4 mb-10 p-4 bg-white/10 rounded-lg border border-blue-500/30 shadow-inner">             
+             <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                        
+             <div class="flex justify-between items-center border-b border-white/20 pb-2">                
+                <label class="font-semibold text-white/70">Full Name:</label>                
+                <span class="text-white">Md. Kamrul Hasan (Partho)</span>            
+            </div>            
+            <div class="flex justify-between items-center border-b border-white/20 pb-2">                
+                <label class="font-semibold text-white/70">Date of Birth:</label>                
+                <span class="text-white">23 February 2006</span>            
+            </div>            
+            <div class="flex justify-between items-center border-b border-white/20 pb-2">                
+                <label class="font-semibold text-white/70">Address:</label>                
+                <span class="text-white">Singra, Natore</span>            
+            </div>            
+            <div class="flex justify-between items-center border-b border-white/20 pb-2">                
+                <label class="font-semibold text-white/70">Current Location:</label>                
+                <span class="text-white">Rajshahi</span>            
+            </div>            
+            <div class="flex justify-between items-center">                
+                <label class="font-semibold text-white/70">Dream:</label>                
+                <span class="text-white text-right">To be a good person and do something great for the country</span>            
+            </div>        
         </div>
 
-        
-        <!-- Bio and Skill Sections -->
-        <div class="space-y-8">
-            
-            <!-- Early Life and Education -->
+                
+        <!-- Bio and Skill Sections -->        
+        <div class="space-y-8">                        
+            <!-- Early Life and Education -->            
             <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">
                 <h3 class="text-2xl font-bold mb-3 text-amber-300">Early Life and Education</h3>
-                <p class="text-white/90 leading-relaxed">Md. Kamrul Hasan, born on 23 February 2006, is a promising young individual from Singra, Natore. He completed his Primary School Certificate (PSC) at Biam Laboratory School and College. Kamrul then continued his studies at Singra Damdama Pilot School and College, where he studied from class 6 to class 10. After completing his secondary education, he moved to Rajshahi to pursue further studies at Rajshahi Education Board Govt. Model School and College.</p>
+                <p class="text-white/90 leading-relaxed">Md. Kamrul Hasan, born on 23 February 2006, is a promising young individual from Singra, Natore. He completed his Primary School Certificate (PSC) at Biam Laboratory School and College. Kamrul then continued his studies at Singra Damdama Pilot School and College, where he studied from class 6 to class 10. After completing his secondary education, he moved to Rajshahi to pursue further studies at Rajshahi Education Board Govt. Model School and College.</p>            
             </div>
 
-            <!-- Skills and Expertise -->
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">
-                <h3 class="text-2xl font-bold mb-3 text-amber-300">Skills and Expertise</h3>
-                <p class="text-white/90 mb-3">Md. Kamrul Hasan is a highly skilled individual with expertise in a wide range of areas. His skills include:</p>
-                <ul class="list-disc list-inside space-y-2 pl-4 text-white/90">
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Writing and content creation</li>
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Idea Invention</li>
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Science project development</li>
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic Programming</li>
-                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic app and web development</li>
-                </ul>
-                <p class="text-white/90 mt-4 leading-relaxed">His versatile talents showcase his passion for both academic pursuits and practical applications of technology, making him stand out as a young innovator and creative thinker.</p>
+            <!-- Skills and Expertise -->            
+            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
+                <h3 class="text-2xl font-bold mb-3 text-amber-300">Skills and Expertise</h3>                
+                <p class="text-white/90 mb-3">Md. Kamrul Hasan is a highly skilled individual with expertise in a wide range of areas. His skills include:</p>                
+                <ul class="list-disc list-inside space-y-2 pl-4 text-white/90">                    
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Writing and content creation</li>                    
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Idea Invention</li>                    
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Science project development</li>                    
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic Programming</li>                    
+                    <li class="flex items-start"><span class="text-blue-400 mr-2">•</span>Basic app and web development</li>                
+                </ul>                
+                <p class="text-white/90 mt-4 leading-relaxed">His versatile talents showcase his passion for both academic pursuits and practical applications of technology, making him stand out as a young innovator and creative thinker.</p>            
             </div>
 
-            <!-- Dreams and Aspirations -->
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">
-                <h3 class="text-2xl font-bold mb-3 text-amber-300">Dreams and Aspirations</h3>
-                <p class="text-white/90 leading-relaxed">Md. Kamrul Hasan aspires to be a good person and make meaningful contributions to his country. His goal is to utilize his skills and talents to help improve his community and contribute to the development of his nation.</p>
-            </div>
+            <!-- Dreams and Aspirations -->            
+            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
+                <h3 class="text-2xl font-bold mb-3 text-amber-300">Dreams and Aspirations</h3>                
+                <p class="text-white/90 leading-relaxed">Md. Kamrul Hasan aspires to be a good person and make meaningful contributions to his country. His goal is to utilize his skills and talents to help improve his community and contribute to the development of his nation.</p>            
+            </div>                        
             
-            <!-- Nickname -->
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">
-                <h3 class="text-2xl font-bold mb-3 text-amber-300">Nickname</h3>
-                <p class="text-white/90 leading-relaxed">He is affectionately known by close friends and family as <strong class="text-blue-400">Partho</strong>, a nickname that signifies his personal connections and relationships.</p>
+            <!-- Nickname -->            
+            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
+                <h3 class="text-2xl font-bold mb-3 text-amber-300">Nickname</h3>                
+                <p class="text-white/90 leading-relaxed">He is affectionately known by close friends and family as <strong class="text-blue-400">Partho</strong>, a nickname that signifies his personal connections and relationships.</p>            
             </div>
 
-            <!-- Contact -->
-            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">
-                <h3 class="2xl font-bold mb-3 text-amber-300">Contact</h3>
-                <p class="text-white/90">
-                    <label class="font-semibold text-white/70 block">Phone:</label> 01751348227<br>
-                    <label class="font-semibold text-white/70 block mt-2">WhatsApp:</label> 01751348227<br>
-                    <label class="font-semibold text-white/70 block mt-2">E-mail:</label> khpartho623@gmail.com
-                </p>
-            </div>
+            <!-- Contact -->            
+            <div class="bg-white/10 p-5 rounded-xl border border-white/10 shadow-lg">                
+                <h3 class="2xl font-bold mb-3 text-amber-300">Contact</h3>                
+                <p class="text-white/90">                    
+                    <label class="font-semibold text-white/70 block">Phone:</label> 01751348227<br>                    
+                    <label class="font-semibold text-white/70 block mt-2">WhatsApp:</label> 01751348227<br>                    
+                    <label class="font-semibold text-white/70 block mt-2">E-mail:</label> khpartho623@gmail.com                
+                </p>            
+            </div>        
         </div>
         
-        <!-- Footer -->
+        <!-- Footer -->        
         <p class="text-center text-white/70 mt-8 text-lg font-medium">Thanks for visiting my website!!🥰</p>
 
     </main>
-
-    <!-- JavaScript for Audio/Video Interaction -->
-    <script>
-        // Function to handle initial user interaction
-        function handleInteraction() {
-            const video = document.getElementById('video-background');
+    
+    <!-- JavaScript for Audio/Video Interaction -->    
+    <script>        
+        // Function to handle initial user interaction        
+        function handleInteraction() {            
+            const video = document.getElementById('video-background');            
             const overlay = document.getElementById('audio-overlay');
 
-            // Try to play and unmute the video
-            if (video) {
-                video.muted = false; // Unmute the audio/song
-                // Use a standard play() call and catch potential errors
-                video.play().catch(e => console.error("Video playback failed:", e));
+            // Try to play and unmute the video            
+            if (video) {                
+                video.muted = false; // Unmute the audio/song                
+                // Use a standard play() call and catch potential errors                
+                video.play().catch(e => console.error("Video playback failed:", e));            
             }
 
-            // Hide the overlay with a fade transition
-            if (overlay) {
-                overlay.style.opacity = '0';
-                // Remove element after transition completes (0.5s)
-                setTimeout(() => overlay.style.display = 'none', 500); 
-            }
+            // Hide the overlay with a fade transition            
+            if (overlay) {                
+                overlay.style.opacity = '0';                
+                // Remove element after transition completes (0.5s)                
+                setTimeout(() => overlay.style.display = 'none', 500);             
+            }        
         }
 
-        // Attach the interaction handler to the overlay when the DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            const overlay = document.getElementById('audio-overlay');
-            if (overlay) {
-                overlay.addEventListener('click', handleInteraction);
-            }
-        });
+        // Attach the interaction handler to the overlay when the DOM is ready        
+        document.addEventListener('DOMContentLoaded', () => {            
+            const overlay = document.getElementById('audio-overlay');            
+            if (overlay) {                
+                overlay.addEventListener('click', handleInteraction);            
+            }        
+        });    
     </script>
 </body>
 </html>
