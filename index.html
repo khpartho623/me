@@ -74,15 +74,52 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+
+        /* Floating Music Control Button */
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        #music-control:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
 
     <!-- 1. AUDIO/ENTRY OVERLAY (Click to Enter) -->
     <div id="audio-overlay">
-        <div class="tap-text">Tap to Enter</div>
+        <div class="tap-text">Tap to Enter 🎵</div>
     </div>
     
+    <!-- 2. Background Music (Updated Link) -->
+    <!-- New Link: Peaceful Piano Music - Adjusted for a melancholic/misty vibe, fitting the request. -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://cdn.pixabay.com/audio/2023/12/12/audio_cf2514cd8c.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Floating Music Toggle Button -->
+    <button id="music-control" title="Toggle Music">
+        🔊
+    </button>
+
     <!-- Video Background -->    
     <video autoplay loop muted playsinline id="video-background">        
         <!-- Placeholder source, replace with your actual video URL -->
@@ -111,27 +148,27 @@
              <h2 class="text-2xl font-bold text-center text-blue-400 mb-4">Personal Details</h2>                       
              <!-- Full Name: Added 2 spaces (&nbsp;&nbsp;) at the end as requested -->
              <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Full Name:</label>                
+                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Full Name:</label>                
                 <span class="text-white whitespace-nowrap">Md. Kamrul Hasan (Partho)&nbsp;&nbsp;</span>            
             </div>            
              <!-- Date of Birth -->
             <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Date of Birth:</label>                
+                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Date of Birth:</label>                
                 <span class="text-white whitespace-nowrap">23 February 2006</span>            
             </div>            
              <!-- Address -->
             <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Address:</label>                
+                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Address:</label>                
                 <span class="text-white whitespace-nowrap">Singra, Natore</span>            
             </div>            
              <!-- Current Location -->
             <div class="flex items-center border-b border-white/20 pb-2 gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Current Location:</label>                
+                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Current Location:</label>                
                 <span class="text-white whitespace-nowrap">Rajshahi</span>            
             </div>            
             <!-- Dream -->
             <div class="flex items-top gap-2">                
-                <label class="font-semibold text-white/70 whitespace-nowrap flex-shrink-0">Dream:</label>                
+                <label class="font-semibold text-white/70 whitespace-nowrap w-32 flex-shrink-0">Dream:</label>                
                 <span class="text-white">To be a good person and do something great for the country</span>            
             </div>        
         </div>
@@ -189,33 +226,86 @@
     
     <!-- JavaScript for Audio/Video Interaction -->    
     <script>        
-        // Function to handle initial user interaction        
-        function handleInteraction() {            
-            const video = document.getElementById('video-background');            
-            const overlay = document.getElementById('audio-overlay');
+        // --- Music & Interaction Logic ---
+        
+        const video = document.getElementById('video-background');            
+        const music = document.getElementById('bg-music');
+        const overlay = document.getElementById('audio-overlay');
+        const musicBtn = document.getElementById('music-control');
+        let isMusicPlaying = false;
 
-            // Try to play and unmute the video            
+        // Function to start everything
+        function startExperience() {
+            // 1. Play Video
             if (video) {                
-                video.muted = false; // Unmute the audio/song                
-                // Use a standard play() call and catch potential errors                
-                video.play().catch(e => console.error("Video playback failed:", e));            
+                video.muted = true; 
+                video.play().catch(e => console.log("Video autoplay blocked or failed:", e));            
             }
 
-            // Hide the overlay with a fade transition            
+            // 2. Play Music
+            if (music) {
+                // VOLUME CHANGED HERE: 1.0 means 100% volume
+                music.volume = 1.0; 
+                const playPromise = music.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        // Play started successfully
+                        isMusicPlaying = true;
+                        updateMusicIcon();
+                    })
+                    .catch(error => {
+                        console.log("Music autoplay prevented. User needs to interact.", error);
+                        isMusicPlaying = false;
+                        updateMusicIcon();
+                    });
+                }
+            }
+
+            // 3. Hide Overlay
             if (overlay) {                
                 overlay.style.opacity = '0';                
-                // Remove element after transition completes (0.5s)                
                 setTimeout(() => overlay.style.display = 'none', 500);            
-            }        
+            }
         }
 
-        // Attach the interaction handler to the overlay when the DOM is ready        
-        document.addEventListener('DOMContentLoaded', () => {            
-            const overlay = document.getElementById('audio-overlay');            
-            if (overlay) {                
-                overlay.addEventListener('click', handleInteraction);            
-            }        
-        });    
+        // Function to toggle music manually
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                isMusicPlaying = true;
+            } else {
+                music.pause();
+                isMusicPlaying = false;
+            }
+            updateMusicIcon();
+        }
+
+        // Update icon based on state
+        function updateMusicIcon() {
+            if (isMusicPlaying) {
+                musicBtn.innerHTML = '🔊'; // Sound On
+                musicBtn.style.opacity = '1';
+            } else {
+                musicBtn.innerHTML = '🔇'; // Sound Off
+                musicBtn.style.opacity = '0.7';
+            }
+        }
+
+        // --- Event Listeners ---
+
+        // 1. User taps the main overlay to enter
+        if (overlay) {
+            overlay.addEventListener('click', startExperience);
+        }
+
+        // 2. User toggles the floating button
+        if (musicBtn) {
+            musicBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent bubbling
+                toggleMusic();
+            });
+        }
     </script>
 </body>
 </html>
